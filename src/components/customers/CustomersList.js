@@ -35,7 +35,6 @@ const CustomersList = (props) => {
         dispatch(asyncGetCustomer(_id, getResult))
     }
 
-
     const handleToggle = () => {
         setToggle(!toggle)
     }
@@ -98,7 +97,7 @@ const CustomersList = (props) => {
                                         <td>{ele.name}</td>
                                         <td>{ele.mobile}</td>
                                         <td>
-                                            <button onClick={() => { handleShow(ele._id) }}>View Details</button>
+                                            <button onClick={() => { handleShow(ele._id) }}>Details</button>
                                         </td>
                                         <td>
                                             <Link to='#' onClick={() => { handleEditChange(ele._id) }}><img src='icons8-edit-64.png' width='30px' height='32px' /></Link>
@@ -122,8 +121,7 @@ const CustomersList = (props) => {
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose}>
                                 Close
-                            </Button>
-                            
+                            </Button>                            
                         </Modal.Footer>
                     </Modal>}
                 </div>
