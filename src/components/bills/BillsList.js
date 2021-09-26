@@ -1,17 +1,32 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Modal, Button } from 'react-bootstrap'
-import html2pdf from 'html2pdf.js'
-
-import { asyncDeleteBill, asyncGetBill } from '../../actions/billsAction'
-import BillModal from "./BillModal"
+// import { Modal, Button } from 'react-bootstrap'
+// import html2pdf from 'html2pdf.js'
+import { asyncDeleteBill, asyncGetAllBills, asyncGetBill } from '../../actions/billsAction'
+// import BillModal from "./BillModal"
+import { Link } from "react-router-dom"
+import BillStats from "./BillStats"
 
 const BillsList = (props) => {
 
     const dispatch = useDispatch()
 
+    const bills = useSelector((state) => {
+        return state.bills
+    })
+
+    useEffect(()=>{
+        dispatch(asyncGetAllBills())
+    }, [])
+
+    const [search, setSearch] = useState('')
+    const [tableData, setTableData] = useState(bills)
     const [show, setShow] = useState(false)
     const [result, setResult] = useState({})
+
+    useEffect(() => {
+        setTableData(bills)
+    }, [bills])
 
     const getResult = (obj) => {
         console.log('get result for modal=', obj)
@@ -24,10 +39,6 @@ const BillsList = (props) => {
         dispatch(asyncGetBill(_id, getResult))
     }
 
-
-    const bills = useSelector((state) => {
-        return state.bills
-    })
     const customers = useSelector((state) => {
         return state.customers
     })
@@ -41,21 +52,32 @@ const BillsList = (props) => {
             } else return 'unknown'
         }
     }
+    const handleSearchChange = (e) => {
+        const userInput = e.target.value
+        setSearch(userInput)
 
-    // const handleDetails = (_id) => {
-    //     dispatch(asyncGetBill(_id))
-    // }
+        const newList = bills.filter(ele => {  
+            console.log('ele=',ele)          
+            if((ele.date).includes(userInput)){
+                return ele
+            }
+        })
+        console.log(newList)
+        setTableData(newList)
+    }
+    
     const handleDelete = (_id) => {
         dispatch(asyncDeleteBill(_id))
     }
-    const generatePDF = () => {
-        const content = document.getElementById('tab')
-        html2pdf(content)
-    }
+    // const generatePDF = () => {
+    //     const content = document.getElementById('tab')
+    //     html2pdf(content)
+    // }
 
     return (
         <div>
             <h2>Bills -  {bills.length} </h2>
+            <input className='form-control mb-3 mt-3' type="text" value={search} placeholder='search' onChange={(e) => { handleSearchChange(e) }} />
             {
                 bills.length === 0 ? <div>
                     <p>No bills. Add Bill</p>
@@ -67,39 +89,24 @@ const BillsList = (props) => {
                                 <th>Customer</th>
                                 <th>Total Bill</th>
                                 <th>View</th>
-                                <th>Action</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                bills.map(ele => {
+                                tableData.map(ele => {
                                     return <tr key={ele._id}>
                                         <td>{ele.date.slice(0, 10)}</td>
                                         <td>{customerName(ele.customer)}</td>
                                         <td>{ele.total}</td>
-                                        <td><button onClick={() => { handleShow(ele._id) }}>Details</button></td>
-                                        <td><button onClick={() => { handleDelete(ele._id) }}>delete</button></td>
+                                        <td><Link to='#' onClick={() => { handleShow(ele._id) }}><img style={{ marginLeft: '10px' }} src='icons8-view-details-64.png' width='30px' height='32px' alt='view' /></Link></td>
+                                        <td><Link to='#' onClick={() => { handleDelete(ele._id) }}><img style={{ marginLeft: '10px' }}src='icons8-delete-64.png' width='30px' height='32px' alt='delete' /></Link></td>
                                     </tr>
                                 })
                             }
                         </tbody>
                     </table>
-                    { Object.keys(result).length > 0 && <Modal show={show} onHide={handleClose}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Bill</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <BillModal handleClose={handleClose} show={show} result={result} />
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="secondary" onClick={handleClose}>
-                                Close
-                            </Button>
-                            <Button variant="primary" onClick={() => { generatePDF() }}>
-                                Download Bill
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>}
+                    { Object.keys(result).length > 0 && <BillStats handleClose={handleClose} show={show} result={result} />}
                 </div>
             }
         </div>

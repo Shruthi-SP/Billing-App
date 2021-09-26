@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, Switch, Route, withRouter } from "react-router-dom";
+import swal from 'sweetalert'
+import PrivateRoute from "./helper/PrivateRoute";
 import Home from './components/user/Home'
 import Register from './components/user/Register'
 import Login from './components/user/Login'
@@ -26,45 +28,41 @@ function App(props) {
   useEffect(() => {
     if (localStorage.getItem('token')) {
       handleLoggedIn()
+      dispatch(asyncGetAllCustomers())
+      dispatch(asyncGetAllProducts())
+      dispatch(asyncGetAllBills())
     }
   }, [])
-  // useEffect(() => {
-  //   dispatch(asyncGetAllCustomers())
-  // }, [])
-  useEffect(() => {
-    dispatch(asyncGetAllProducts())
-  }, [])
-  useEffect(() => {
-    dispatch(asyncGetAllBills())
-  }, [])
-
+  
   return (
     <div>
       <h1 style={{ textAlign: 'center' }}>Billing App</h1>
-
       {
-        userLoggedIn ? <div className="d-flex bg-primary"
-        >
+        userLoggedIn ? <div className="d-flex bg-info">
+          <Link className="p-2 ms-5 text-white text-decoration-none" to='/users/account'>Account</Link>
+          <Link className="p-2 ms-5 text-white text-decoration-none" to='/customers'>Customers</Link>
+          <Link className="p-2 ms-5 text-white text-decoration-none" to='/products'>Products</Link>
+          <Link className="p-2 ms-5 text-white text-decoration-none" to='/bills'>Billings</Link>
+          <Link className="p-2 ms-5 text-white text-decoration-none" to='/dashboard'>Dashboard</Link>
           <Link className="p-2 ms-5 text-white text-decoration-none"
-            to='/users/account'>Account</Link>  <Link className="p-2 ms-5 text-white text-decoration-none"
-              to='/customers'>Customers</Link>  <Link className="p-2 ms-5 text-white text-decoration-none"
-                to='/products'>Products</Link>  <Link className="p-2 ms-5 text-white text-decoration-none"
-                  to='/bills'>Billings</Link> <Link className="p-2 ms-5 text-white text-decoration-none"
-                    to='/dashboard'>Dashboard</Link>  <Link className="p-2 flex-shrink-1 ms-5 text-white text-decoration-none"
                       to='#' onClick={() => {
                         localStorage.removeItem('token')
-                        alert('successfully logged out')
+                        swal('successfully logged out')
                         handleLoggedIn()
                         props.history.push('/')
                       }}>Logout</Link>
-        </div> : <div className="d-flex bg-primary">
-          <Link className="p-2 ms-5 text-white text-decoration-none" to='/'>Home</Link> <Link className="p-2 ms-5 text-white text-decoration-none" to='/users/register'> Register</Link>  <Link className="p-2 flex-shrink-1 ms-5 text-white text-decoration-none" to='/users/login'>Login</Link>
+        </div> : <div className="d-flex bg-info">
+          <Link className="p-2 ms-5 text-white text-decoration-none" to='/'>Home</Link>
+          <Link className="p-2 ms-5 text-white text-decoration-none" to='/users/register'> Register</Link>
+          <Link className="p-2 ms-5 text-white text-decoration-none" to='/users/login'>Login</Link>
         </div>
       }
+      <div className='container'>
       <Route path='/' component={Home} exact></Route>
       {
         userLoggedIn ? <Switch>
-          <Route path='/users/account' exact component={Account}></Route>
+          {/* <PrivateRoute path='/users/account' component={Account} exact={true}  /> */}
+          {<Route path='/users/account' exact component={Account}></Route>}
           <Route path='/customers' exact component={Customers}></Route>
           <Route path='/products' exact component={Products}></Route>
           <Route path='/bills' exact component={Billings}></Route>
@@ -76,6 +74,8 @@ function App(props) {
           }}></Route>
         </Switch>
       }
+      </div>
+      
     </div>
   );
 }

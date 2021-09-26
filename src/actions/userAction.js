@@ -1,18 +1,20 @@
 import axios from 'axios'
+import swal from 'sweetalert'
 
 export const asyncUserRegister = (formData, resetForm, redirect) => {
-    return (dispatch, getState) => {
+    return () => {
         axios.post('http://dct-billing-app.herokuapp.com/api/users/register', formData)
             .then((response)=>{
                 const result = response.data
                 if(result.hasOwnProperty('errors')){
                     console.log('errors=', result.errors)
+                    swal(result.errors)
                 }else if(result.hasOwnProperty('errmsg')){
-                    alert('unsuccessful. username already exists.')
+                    swal('unsuccessful. username already exists.')
                 }
                 else{
                     console.log('async register response=', result)
-                    alert('registered successfully')
+                    swal('Registered successfully')
                     resetForm()
                     redirect()
                 }
@@ -21,7 +23,7 @@ export const asyncUserRegister = (formData, resetForm, redirect) => {
 }
 
 export const asyncUserLogin = (formData, resetForm, redirect) => {
-    return (dispatch, getState) => {
+    return () => {
         axios.post('http://dct-billing-app.herokuapp.com/api/users/login', formData)
             .then((response)=>{
                 const result = response.data
@@ -31,7 +33,7 @@ export const asyncUserLogin = (formData, resetForm, redirect) => {
                 else{
                     console.log('async register response=', result)
                     localStorage.setItem('token', result.token)
-                    alert('successfully logged in')
+                    swal('successfully logged in')
                     resetForm()
                     redirect()
                 }
@@ -50,7 +52,7 @@ export const asyncGetUserAccount = () => {
         .then((response)=>{
             const result = response.data
             if(result.hasOwnProperty('errors')){
-                console.log('errors=', result.errors)
+                swal(result.errors)
             }
             else{
                 console.log('async get user response=', result)
@@ -59,7 +61,7 @@ export const asyncGetUserAccount = () => {
         })
         .catch((err)=>{
             console.log('err in getting user ', err.message)
-            alert(err.message)
+            swal(err.message)
         })
     }
 }

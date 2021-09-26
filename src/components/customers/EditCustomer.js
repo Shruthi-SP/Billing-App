@@ -1,9 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
-import { asyncEditCustomer, asyncGetCustomer } from "../../actions/customersAction"
+import { asyncEditCustomer} from "../../actions/customersAction"
 import CustomerForm from "./CustomerForm"
 
 const EditCustomer = (props) => {
-    //console.log('edit customer props=', props)
     const { _id, handleToggle } = props
 
     const dispatch = useDispatch()
@@ -14,9 +13,6 @@ const EditCustomer = (props) => {
 
     const customer = customers.find(ele=>ele._id === _id)
     console.log('customerObj in edit=', customer)
-
-    // const custObj = dispatch(asyncGetCustomer(_id))
-    // console.log('custObj=', custObj)
 
     const formSubmission = (formData, resetForm) => {
         console.log('edit customer formdata=', formData)

@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Select from 'react-select'
-
-import { asyncAddBill } from "../../actions/billsAction"
+import swal from 'sweetalert'
+import { asyncAddBill, asyncGetBill } from "../../actions/billsAction"
+import BillStats from "./BillStats"
 
 const BillForm = (props) => {
     const customers = useSelector((state) => {
@@ -31,12 +32,22 @@ const BillForm = (props) => {
     const [formError, setFormError] = useState('')
     const errors = {}
 
-    // useEffect(()=>{
-    //     console.log('ue==',custOpt)
-    //     setCust(custOpt)
-    // },[])
+    const [show, setShow] = useState(false)
+    const [result, setResult] = useState({})
+
 
     const dispatch = useDispatch()
+
+    const getResult = (obj) => {
+        console.log('get result for modal=', obj)
+        setResult(obj)
+    }
+
+    const handleClose = () => setShow(false);
+    const handleShow = (_id) => {
+        setShow(true)
+        dispatch(asyncGetBill(_id, getResult))
+    }
 
     const getCustomerName = (_id) => {
         const getCustObj = customers.find(ele => ele._id === _id)
@@ -50,8 +61,8 @@ const BillForm = (props) => {
     }
 
     const runValidation = () => {
-        if (quantity < 0) {
-            errors.quantity = 'quantity cannot be a negative number'
+        if (quantity.length === 0 ) {
+            errors.quantity = 'add quantity'
         }
         if (chosenDate.length === 0) {
             errors.chosenDate = 'pick the date'
@@ -101,6 +112,7 @@ const BillForm = (props) => {
         setQuantity('')
         setLineItems([])
         setCust([])
+        setProd([])
     }
 
     const handleAddItem = (e) => {
@@ -116,7 +128,10 @@ const BillForm = (props) => {
             const newLineItems = [item, ...lineItems]
             setLineItems(newLineItems)
             console.log('line items=', newLineItems)
-            alert('Added to cart')
+            swal('Added to cart')
+            setProd([])
+            setQuantity('')
+            setChosenProduct('')
         } else {
             setFormError(errors)
         }
@@ -134,7 +149,7 @@ const BillForm = (props) => {
                 lineItems: lineItems
             }
             console.log('billObj=', billObj)
-            dispatch(asyncAddBill(billObj, resetForm))
+            dispatch(asyncAddBill(billObj, resetForm, handleShow))
         } else {
             if (lineItems.length === 0) {
                 errors.lineItems = 'Click on Add Items'
@@ -146,8 +161,9 @@ const BillForm = (props) => {
     return (
         <div style={{ marginRight: '100px', alignItems: 'self-end' }}>
             {
-                lineItems.length > 0 && <div>Cart Details
-                    {chosenCustomer && <p>Customer Name - {getCustomerName(chosenCustomer)}</p>}
+                lineItems.length > 0 && <div>
+                    <h6>Cart Details</h6>
+                    {chosenCustomer && <h6>Customer Name - {getCustomerName(chosenCustomer)}</h6>}
                     {lineItems.length > 0 && <table className='table'>
                         <thead>
                             <tr>
@@ -167,45 +183,48 @@ const BillForm = (props) => {
                 </div>
             }
             <h2>Add Bill</h2>
-            <form onSubmit={handleSubmit}>
-                <input style={{ width: '100%' }} type='date' name='chosenDate' value={chosenDate} onChange={handleChange} /><br />
-                {formError.chosenDate && <span style={{ color: 'red' }}>{formError.chosenDate}</span>}<br />
+            <form className='mt-3' onSubmit={handleSubmit}>
+                <input className='form-control' 
+                    style={{ width: '100%' }} 
+                    type='date' name='chosenDate' 
+                    value={chosenDate} 
+                    onChange={handleChange} 
+                />
+                {formError.chosenDate && <span style={{ color: 'red' }}>{formError.chosenDate}</span>}<br />              
 
-                {/*<select style={{ padding: '3px 10px', width: '100%' }} name='chosenCustomer' value={chosenCustomer} onChange={handleChange}>
-                    <option value=''>Select Customer</option>
-                    {
-                        customers.map(ele => {
-                            return <option key={ele._id} value={ele._id}>{ele.name}</option>
-                        })
-                    }
-                </select>*/}<br />
-                {/*formError.chosenCustomer && <span style={{ color: 'red' }}>{formError.chosenCustomer}</span>*/}
-
-                <Select value={cust} onChange={handleCustomerChange} options={custOpt} /> <br />
+                <Select
+                    value={cust} 
+                    onChange={handleCustomerChange} 
+                    options={custOpt} 
+                /> 
                 {formError.chosenCustomer && <span style={{ color: 'red' }}>{formError.chosenCustomer}</span>}<br />                 
 
                 <label><b>Items : </b></label>
-                <Select value={prod} onChange={handleProductChange} options={prodOpt} /> <br />
+                <Select 
+                    value={prod} 
+                    onChange={handleProductChange} 
+                    options={prodOpt} 
+                />
                 {formError.chosenProduct && <span style={{ color: 'red' }}>{formError.chosenProduct}</span>}<br /> 
-                {/* {<select style={{ padding: '3px 11px' }} name='chosenProduct' value={chosenProduct} onChange={handleChange}>
-                    <option value=''>Select Products</option>
-                    {
-                        products.map(ele => {
-                            return <option key={ele._id} value={ele._id}>{ele.name}</option>
-                        })
-                    }
-                </select>}<br /> }
-                {formError.chosenProduct && <span style={{ color: 'red' }}>{formError.chosenProduct}</span>*/}
 
-                <input style={{ marginLeft: '55px', paddingLeft: '15px', width: '120px' }} type='number' min='0' placeholder='1' name='quantity' value={quantity} onChange={handleChange} /><br />
-                {formError.quantity && <span style={{ color: 'red' }}>{formError.quantity}</span>} <br />
+                <input className='form-control' 
+                    style={{ marginLeft: '55px', paddingLeft: '15px', width: '140px' }} 
+                    type='number' min='1' 
+                    placeholder='1' 
+                    name='quantity' 
+                    value={quantity} 
+                    onChange={handleChange} 
+                />
+                {formError.quantity && <span style={{ marginLeft: '55px', width: '140px', color: 'red' }}>{formError.quantity}</span>}<br />
 
-                <button style={{ marginLeft: '55px', width: '140px' }} onClick={handleAddItem}>Add Item</button><br ></br>
-                {formError.lineItems && <span style={{ color: 'red' }}>{formError.lineItems}</span>}<br />
-                <input style={{ width: '100%' }} type='submit' value='Add Bill' /><br />
-                
+                <button className='form-control'
+                    style={{ marginLeft: '55px', width: '140px' }} 
+                    onClick={handleAddItem}>Add Item</button><br />
+                {/* {formError.lineItems && <span style={{ color: 'red' }}>{formError.lineItems}</span>} */}
+
+                <input className='form-control' style={{ width: '100%' }} type='submit' value='Add Bill' /><br />    
             </form>
-                <br />
+            { Object.keys(result).length > 0 && <BillStats handleClose={handleClose} show={show} result={result} />}
         </div>
     )
 }
