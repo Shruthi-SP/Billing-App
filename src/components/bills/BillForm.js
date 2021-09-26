@@ -140,7 +140,7 @@ const BillForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         runValidation()
-        if (Object.keys(errors).length === 0 && lineItems.length > 0) {
+        if (lineItems.length > 0) {
             setFormError({})
             let billObj = {}
             billObj = {
