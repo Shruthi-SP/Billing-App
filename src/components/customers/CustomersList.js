@@ -88,9 +88,6 @@ const CustomersList = (props) => {
                                         <td>{ele.name}</td>
                                         <td>{ele.mobile}</td>
                                         <td>
-<<<<<<< HEAD
-                                            <button onClick={() => { handleShow(ele._id) }}>Details</button>
-=======
                                             <Link to='#' onClick={() => { handleShow(ele._id) }}><img style={{ marginLeft: '10px' }} src='icons8-view-details-64.png' width='30px' height='32px' alt='view' /></Link>
                                         </td>
                                         <td>
@@ -100,7 +97,6 @@ const CustomersList = (props) => {
                                                     <button onClick={handleToggle}>cancel</button>
                                                 </div> : <Link to='#' onClick={() => { handleEditChange(ele._id) }}><img src='icons8-edit-64.png' width='30px' height='32px' alt='edit' /></Link>
                                             }
->>>>>>> master
                                         </td>
                                         <td>
                                             <Link to='#' onClick={() => { handleDelete(ele._id) }}><img src='icons8-delete-64.png' width='30px' height='32px' alt='delete' /></Link>
@@ -124,11 +120,7 @@ const CustomersList = (props) => {
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose}>
                                 Close
-<<<<<<< HEAD
-                            </Button>                            
-=======
                             </Button>
->>>>>>> master
                         </Modal.Footer>
                     </Modal>}
                 </div>
