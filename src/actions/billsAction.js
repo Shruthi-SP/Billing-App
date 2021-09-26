@@ -1,4 +1,5 @@
 import axios from "axios"
+import swal from 'sweetalert'
 
 export const asyncGetAllBills = () => {
     return (dispatch) => {
@@ -26,7 +27,7 @@ export const getAllBills = (bills) => {
 }
 
 export const asyncGetBill = (_id, getResult) => {
-    return (dispatch) => {
+    return () => {
         axios.get(`http://dct-billing-app.herokuapp.com/api/bills/${_id}`,  {
             headers : {
                 Authorization : `Bearer ${localStorage.getItem('token')}`
@@ -38,10 +39,7 @@ export const asyncGetBill = (_id, getResult) => {
                 console.log('get a bill err=', result.errors)
             }else{
                 console.log('get a bill res=', result)
-                alert(`Details:Bill ID: ${result._id}\nDate: ${result.date.slice(0,10)}\nCustomer id: ${result.customer}\nNo. of Items: ${result.lineItems.length}\nTotal:${result.total}\n `)
-                //dispatch(getBill(result))
                 getResult(result)
-                return result
             }
         })
         .catch((err)=>{
@@ -50,10 +48,8 @@ export const asyncGetBill = (_id, getResult) => {
         })
     }
 }
-// export const getBill = (billObj) => {
-//     return { type:'GET_BILL', payload: billObj}
-// }
-export const  asyncAddBill = (formData, resetForm) => {
+
+export const  asyncAddBill = (formData, resetForm, handleShow) => {
     return (dispatch) => {
         axios.post('http://dct-billing-app.herokuapp.com/api/bills', formData, {
             headers : {
@@ -68,7 +64,8 @@ export const  asyncAddBill = (formData, resetForm) => {
                 console.log('add bill response=', result)
                 dispatch(addBill(result))
                 resetForm()
-                alert('bill added successfully')
+                swal('Bill added successfully')
+                handleShow(result._id)
             }
         })
         .catch((err)=>{
@@ -95,7 +92,7 @@ export const asyncDeleteBill = (_id) => {
             }else{
                 console.log('delete bill res=', result)
                 dispatch(deleteBill(result))
-                alert('deleted successfully')
+                swal('Bill deleted')
             }
         })
         .catch((err)=>{

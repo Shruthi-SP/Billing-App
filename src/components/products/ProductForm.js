@@ -50,18 +50,18 @@ const ProductForm = (props) => {
         <div>
             <h2 style={{marginTop: '0px'}}>Add Product</h2>
             <form onSubmit={handleSubmit}>
-                <input  type='text' 
+                <input className='form-control'  type='text' 
                         placeholder='enter name' name='name' 
                         value={name} 
                         onChange={handleChange}
-                /><br />
+                />
                 {formErrors.name && <span style={{color: 'red'}}>{formErrors.name}</span>}<br />
 
-                <input  type='text' 
+                <input  className='form-control' type='text' 
                         placeholder='enter price' name='price' 
                         value={price} 
                         onChange={handleChange}
-                /><br />
+                />
                 {formErrors.price && <span style={{color: 'red'}}>{formErrors.price}</span>}<br />
                 <input type='submit' value='Add' />
             </form>

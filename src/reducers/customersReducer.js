@@ -4,8 +4,7 @@ const customersReducer = (state=customersIntialValue, action) => {
     switch (action.type) {
         case 'GET_ALL_CUSTOMER': {
             return [...action.payload]
-        }
-        
+        }        
         case 'ADD_CUSTOMER' : {
             return [...state, action.payload]
         }

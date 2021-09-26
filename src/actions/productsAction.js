@@ -1,4 +1,5 @@
 import axios from "axios"
+import swal from 'sweetalert'
 
 export const asyncGetAllProducts = () => {
     return (dispatch) => {
@@ -17,7 +18,7 @@ export const asyncGetAllProducts = () => {
         })
         .catch((err)=>{
             console.log('err in get all products', err.message)
-            alert(err.message)
+            swal(err.message)
         })
     }
 }
@@ -25,8 +26,8 @@ export const getAllProducts = (products) => {
     return {type: 'GET_ALL_PRODUCTS', payload: products}
 }
 
-export const asyncGetProduct = (_id) => {
-    return (dispatch) => {
+export const asyncGetProduct = (_id, getResult) => {
+    return () => {
         axios.get(`http://dct-billing-app.herokuapp.com/api/products/${_id}`,  {
             headers : {
                 Authorization : `Bearer ${localStorage.getItem('token')}`
@@ -38,20 +39,16 @@ export const asyncGetProduct = (_id) => {
                 console.log('get a product err=', result.errors)
             }else{
                 console.log('get a product res=', result)
-                alert(`name: ${result.name}\nprice: ${result.price} \nAdded on: ${result.createdAt}\nID: ${result._id} `)
-                //dispatch(getProduct(result))
-                return result
+                getResult(result)
             }
         })
         .catch((err)=>{
             console.log('err in get a product=', err.message)
-            alert(err.message)
+            swal(err.message)
         })
     }
 }
-// export const getProduct = (prodObj) => {
-//     return { type:'GET_PRODUCT', payload: prodObj}
-// }
+
 export const  asyncAddProduct = (formData, resetForm) => {
     return (dispatch) => {
         axios.post('http://dct-billing-app.herokuapp.com/api/products', formData, {
@@ -67,6 +64,7 @@ export const  asyncAddProduct = (formData, resetForm) => {
                 console.log('add prod response=', result)
                 dispatch(addProduct(result))
                 resetForm()
+                swal('Product added sucessfully')
             }
         })
         .catch((err)=>{
@@ -89,9 +87,10 @@ export const asyncEditProduct = (_id, formData) => {
             const result = response.data
             if(result.hasOwnProperty('errors')){
                 console.log('put edit prod err=', result.errors)
+                alert(result.errors)
             }else{
                 console.log('put edit prod res=', result)
-                alert(`Edited Successfully :\nname: ${result.name}\nprice: ${result.price} \nAdded on: ${result.createdAt}\nID: ${result._id} `)
+                swal(`Edited Product data`)
                 dispatch(editProduct(result))
             }
         })
@@ -116,10 +115,11 @@ export const asyncDeleteProduct = (_id) => {
             const result = response.data
             if(result.hasOwnProperty('errors')){
                 console.log('delete prod err',result.errors)
+                alert(result.errors)
             }else{
                 console.log('delete prod res=', result)
                 dispatch(deleteProduct(result))
-                alert('deleted successfully')
+                swal('Product deleted')
             }
         })
         .catch((err)=>{
