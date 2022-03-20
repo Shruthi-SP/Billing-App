@@ -11,14 +11,12 @@ export const asyncGetAllCustomers = () => {
         .then((response)=>{
             const result = response.data
             if(result.hasOwnProperty('errors')){
-                console.log(result.errors)
                 swal(result.errors)
             }else{
                 dispatch(getAllCustomers(result))
             }
         })
         .catch((err)=>{
-            console.log('err in get all customers', err.message)
             swal(err.message)
         })
     }
@@ -37,15 +35,12 @@ export const asyncGetCustomer = (_id, getResult) => {
         .then((response)=>{
             const result = response.data
             if(result.hasOwnProperty('errors')){
-                console.log(result.errors)
                 swal(result.errors)
             }else{
-                console.log('get a customer res=', result)
                 getResult(result)
             }
         })
         .catch((err)=>{
-            console.log('err in get all customers', err.message)
             swal(err.message)
         })
     }
@@ -61,17 +56,14 @@ export const  asyncAddCustomer = (formData, resetForm) => {
         .then((response)=>{
             const result = response.data
             if(result.hasOwnProperty('errors')){
-                console.log('add cust err=',result.errors)
                 swal(result.errors)
             }else{
-                console.log('add cust response=', result)
                 dispatch(addCustomer(result))
                 resetForm()
                 swal('Customer added successfully')
             }
         })
         .catch((err)=>{
-            console.log('err in adding customers', err.message)
             swal(err.message)
         })
     }
@@ -89,16 +81,13 @@ export const asyncEditCustomer = (_id, formData) => {
         .then((response)=>{
             const result = response.data
             if(result.hasOwnProperty('errors')){
-                console.log('put edit err=', result.errors)
                 swal(result.errors)
             }else{
-                console.log('put edit res=', result)
                 swal(`Edited Customer data`)
                 dispatch(editCustomer(result))
             }
         })
         .catch((err)=>{
-            console.log('err in deleting customer=', err.message)
             swal(err.message)
         })
     }
@@ -117,16 +106,13 @@ export const asyncDeleteCustomer = (_id) => {
         .then((response)=>{
             const result = response.data
             if(result.hasOwnProperty('errors')){
-                console.log('delete cust err',result.errors)
                 swal(result.errors)
             }else{
-                console.log('delete cust res=', result)
                 dispatch(deleteCustomer(result))
                 swal('Customer deleted')
             }
         })
         .catch((err)=>{
-            console.log('err in deleting customer', err.message)
             swal(err.message)
         })
     }

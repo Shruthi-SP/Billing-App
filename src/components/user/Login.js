@@ -46,7 +46,7 @@ const Login = (props) => {
                 setPassword('')
             }
             const redirect = () => {
-                props.history.push('/')
+                props.history.push('/users/account')
                 props.handleLoggedIn()
             }
             console.log('login formdata=', formData)

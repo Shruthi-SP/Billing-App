@@ -29,10 +29,7 @@ const CustomersList = (props) => {
         setTableData(customers)
     }, [customers])
 
-    const getResult = (obj) => {
-        console.log('get result for modal=', obj)
-        setResult(obj)
-    }
+    const getResult = (obj) => setResult(obj)
 
     const handleClose = () => setShow(false);
     const handleShow = (_id) => {
@@ -47,9 +44,7 @@ const CustomersList = (props) => {
     const handleSearchChange = (e) => {
         const userInput = e.target.value
         setSearch(userInput)
-
         const newList = customers.filter(ele => ele.name.toLowerCase().includes(userInput) || (ele.mobile).includes(userInput))
-        console.log(newList)
         setTableData(newList)
     }
 
@@ -62,14 +57,15 @@ const CustomersList = (props) => {
     }
 
     return (
-        <div>
-            <input className='form-control mb-3 mt-3' type="text" value={search} placeholder='search' onChange={(e) => { handleSearchChange(e) }} />
+        <div className='col-md-6'>
+            <h2 className='mt-3 mb-3'>Customers</h2>
+            <input className='form-control mb-3 mt-3' type="text" value={search} placeholder='search by name or mobile' onChange={(e) => { handleSearchChange(e) }} />
             {
                 tableData.length === 0 ? <div>
                     <p>No customers. Add Customers</p>
                 </div> : <div>
                     <div >
-                        <h3 style={{ margin: '0px 5px' }}>Listing Customers - {tableData.length}</h3>
+                        <h3 style={{ margin: '0px 5px' }}>Listing - {tableData.length}</h3>
                     </div>
                     <table className='table'>
                         <thead>

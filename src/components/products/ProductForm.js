@@ -47,8 +47,8 @@ const ProductForm = (props) => {
     }
 
     return (
-        <div>
-            <h2 style={{marginTop: '0px'}}>Add Product</h2>
+        <div className='mt-3 mb-3'>
+            <h2 className='mb-3'>Add Product</h2>
             <form onSubmit={handleSubmit}>
                 <input className='form-control'  type='text' 
                         placeholder='enter name' name='name' 
@@ -63,7 +63,7 @@ const ProductForm = (props) => {
                         onChange={handleChange}
                 />
                 {formErrors.price && <span style={{color: 'red'}}>{formErrors.price}</span>}<br />
-                <input type='submit' value='Add' />
+                <input style={{width:'50%'}} type='submit' value='Add' />
             </form>
         </div>
     )

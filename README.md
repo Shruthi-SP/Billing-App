@@ -1,70 +1,54 @@
-# Getting Started with Create React App
+# `Billing App`
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Billing app is an application designed for the creation of customer invoice with the detailing to product and the quantity purchased. This app can be used while the customer completes the shopping and is ready to checkout from the retail outlet. This application is intended for the user of the stores or the outlet.
 
-## Available Scripts
+## `Packages included`
+*react
+*axios
+*validator
+*react-router-dom
+*redux
+*react-redux
+*redux-thunk
+*react-select
+*google-chart
+*bootstrap
+*react-bootstrap
+*html2pdf.js
+*sweetalert
 
-In the project directory, you can run:
+### `Features`
+*User Authentication
 
-### `npm start`
+  *The user must login if he has already registerd. 
+  *If not registered, the user must register first by providing proper credentials.
+  *Once logged in the user id directed to private accounts
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+*Customer 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+  *User can view list of customers in the table
+  *The user can add new customer in the form.
+  *The user can view, edit, remove customer.
 
-### `npm test`
+*Products
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  *User can view list of products and price in the table.
+  *The user can add new products and its price.
+  *The user can view, edit product information and remove product
 
-### `npm run build`
+*Billings
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  *The user can view the list of bills added.
+  *The user can add bill in the form.
+  *The user can choose customer, product and quantity
+  *On click of Add bill, the user can generate bill and can also download the particular bill.
+  
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `Contributor`
+Shruthi-SP
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

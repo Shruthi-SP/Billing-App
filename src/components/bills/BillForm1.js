@@ -1,11 +1,14 @@
+// {lineItems.length> 0 && <BillCart lineItems={lineItems} getCustomerName={getCustomerName} getProductName={getProductName} incQuantity={incQuantity} decQuantity={decQuantity} removeItem={removeItem} quantity={quantity}  />}
+
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Select from 'react-select'
 import swal from 'sweetalert'
 import { asyncAddBill, asyncGetBill } from "../../actions/billsAction"
 import BillStats from "./BillStats"
+import BillCart from "./BillCart"
 
-const BillForm = (props) => {
+const BillForm1 = (props) => {
     const customers = useSelector((state) => {
         return state.customers
     })
@@ -55,6 +58,33 @@ const BillForm = (props) => {
     const getProductName = (_id) => {
         const getProdObj = products.find(ele => ele._id === _id)
         return getProdObj.name
+    }
+    
+    const incQuantity = (id) => {
+        const result = lineItems.map(ele =>{
+            if(ele.product == id){
+                return {...ele, ...{quantity: Number(ele.quantity) + 1}}
+            }else {
+                return {...ele}
+            }
+        })
+        setLineItems(result)
+    }
+    const decQuantity = (id) => {
+        const result = lineItems.map(ele =>{
+            if(ele.product == id){
+                return {...ele, ...{quantity: Number(ele.quantity) - 1}}
+            }else {
+                return {...ele}
+            }
+        })
+        setLineItems(result)
+    }
+    const removeItem = (id) => {
+        const result = lineItems.filter(ele =>{
+            return ele.product!=id
+        })
+        setLineItems(result)
     }
 
     const runValidation = () => {
@@ -118,6 +148,7 @@ const BillForm = (props) => {
                 quantity: quantity
             }
             const newLineItems = [item, ...lineItems]
+            console.log('cart items=', newLineItems)
             setLineItems(newLineItems)
             swal('Added to cart')
             setProd([])
@@ -151,26 +182,7 @@ const BillForm = (props) => {
     return (
         <div className='col-md-4'>
             {
-                lineItems.length > 0 && <div>
-                    <h4>Cart Details</h4>
-                    {chosenCustomer && <h6>Customer Name - {getCustomerName(chosenCustomer)}</h6>}
-                    {lineItems.length > 0 && <table className='table'>
-                        <thead>
-                            <tr>
-                                <th>Product</th>
-                                <th>Quantity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {lineItems.map((ele, i) => {
-                                return (<tr key={i}>
-                                    <td>{getProductName(ele.product)}</td>
-                                    <td>{ele.quantity}</td>
-                                </tr>)
-                            })}
-                        </tbody>
-                    </table>}
-                </div>
+                lineItems.length > 0 && <BillCart lineItems={lineItems} chosenCustomer={chosenCustomer} chosenProduct={chosenProduct} getCustomerName={getCustomerName} getProductName={getProductName} incQuantity={incQuantity} decQuantity={decQuantity} removeItem={removeItem} quantity={quantity}  />
             }
             <h2  className='mt-3' >Add Bill</h2>
             <form className='mt-3' onSubmit={handleSubmit}>
@@ -220,4 +232,4 @@ const BillForm = (props) => {
         </div>
     )
 }
-export default BillForm
+export default BillForm1

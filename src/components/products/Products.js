@@ -3,12 +3,9 @@ import AddProduct from "./AddProduct"
 
 const Products = (props) => {
     return (
-        <div>
-            <h2>Products</h2>
-            <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                <ProductsList />
-                <AddProduct />
-            </div>
+        <div className='row justify-content-around'>
+            <ProductsList />
+            <AddProduct />
         </div>
     )
 }

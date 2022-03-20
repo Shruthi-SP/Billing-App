@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-// import { Modal, Button } from 'react-bootstrap'
-// import html2pdf from 'html2pdf.js'
 import { asyncDeleteBill, asyncGetAllBills, asyncGetBill } from '../../actions/billsAction'
-// import BillModal from "./BillModal"
 import { Link } from "react-router-dom"
 import BillStats from "./BillStats"
 
@@ -29,7 +26,6 @@ const BillsList = (props) => {
     }, [bills])
 
     const getResult = (obj) => {
-        console.log('get result for modal=', obj)
         setResult(obj)
     }
 
@@ -45,7 +41,7 @@ const BillsList = (props) => {
     const customerName = (_id) => {
         if (customers.length > 0) {
             const custObj = customers.find(ele => {
-                return ele._id == _id
+                return ele._id === _id
             })
             if (custObj) {
                 return custObj.name
@@ -55,29 +51,18 @@ const BillsList = (props) => {
     const handleSearchChange = (e) => {
         const userInput = e.target.value
         setSearch(userInput)
-
-        const newList = bills.filter(ele => {  
-            console.log('ele=',ele)          
-            if((ele.date).includes(userInput)){
-                return ele
-            }
-        })
-        console.log(newList)
+        const newList = bills.filter(ele =>(ele.date).includes(userInput)||customerName(ele.customer).includes(userInput))
         setTableData(newList)
     }
     
     const handleDelete = (_id) => {
         dispatch(asyncDeleteBill(_id))
     }
-    // const generatePDF = () => {
-    //     const content = document.getElementById('tab')
-    //     html2pdf(content)
-    // }
 
     return (
-        <div>
-            <h2>Bills -  {bills.length} </h2>
-            <input className='form-control mb-3 mt-3' type="text" value={search} placeholder='search' onChange={(e) => { handleSearchChange(e) }} />
+        <div className='col-md-6'>
+            <h2 className='mt-3' >Bills -  {bills.length} </h2>
+            <input className='form-control mb-3 mt-3' type="text" value={search} placeholder='search by date or customer name' onChange={(e) => { handleSearchChange(e) }} />
             {
                 bills.length === 0 ? <div>
                     <p>No bills. Add Bill</p>

@@ -11,14 +11,13 @@ export const asyncGetAllProducts = () => {
         .then((response)=>{
             const result = response.data
             if(result.hasOwnProperty('errors')){
-                console.log('get all products err=', result.errors)
+                alert(result.errors)
             }else{
                 dispatch(getAllProducts(result))
             }
         })
         .catch((err)=>{
-            console.log('err in get all products', err.message)
-            swal(err.message)
+            alert(err.message)
         })
     }
 }
@@ -36,15 +35,13 @@ export const asyncGetProduct = (_id, getResult) => {
         .then((response)=>{
             const result = response.data
             if(result.hasOwnProperty('errors')){
-                console.log('get a product err=', result.errors)
+                alert(result.errors)
             }else{
-                console.log('get a product res=', result)
                 getResult(result)
             }
         })
         .catch((err)=>{
-            console.log('err in get a product=', err.message)
-            swal(err.message)
+            alert(err.message)
         })
     }
 }
@@ -59,16 +56,14 @@ export const  asyncAddProduct = (formData, resetForm) => {
         .then((response)=>{
             const result = response.data
             if(result.hasOwnProperty('errors')){
-                console.log('add prod err=',result.errors)
+                alert(result.errors)
             }else{
-                console.log('add prod response=', result)
                 dispatch(addProduct(result))
                 resetForm()
                 swal('Product added sucessfully')
             }
         })
         .catch((err)=>{
-            console.log('err in adding product=', err.message)
             alert(err.message)
         })
     }
@@ -86,16 +81,13 @@ export const asyncEditProduct = (_id, formData) => {
         .then((response)=>{
             const result = response.data
             if(result.hasOwnProperty('errors')){
-                console.log('put edit prod err=', result.errors)
                 alert(result.errors)
             }else{
-                console.log('put edit prod res=', result)
                 swal(`Edited Product data`)
                 dispatch(editProduct(result))
             }
         })
         .catch((err)=>{
-            console.log('err in editing prod=', err.message)
             alert(err.message)
         })
     }
@@ -114,16 +106,13 @@ export const asyncDeleteProduct = (_id) => {
         .then((response)=>{
             const result = response.data
             if(result.hasOwnProperty('errors')){
-                console.log('delete prod err',result.errors)
                 alert(result.errors)
             }else{
-                console.log('delete prod res=', result)
                 dispatch(deleteProduct(result))
                 swal('Product deleted')
             }
         })
         .catch((err)=>{
-            console.log('err in deleting product', err.message)
             alert(err.message)
         })
     }

@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import BillCard from "./BillCard"
 import BillChart from "./BillChart"
-//import BillStats from "./BillStats"
 
 const BillingDashboard = (props) => {
 
@@ -10,24 +8,40 @@ const BillingDashboard = (props) => {
         return state.bills
     })
 
-    const [billData, setBillData] = useState(bills)
-
-    useEffect(() => {
-        setBillData(bills)
-    })
-
-    const data = bills.map(ele => {
-        return [ele.date.slice(0, 10), ele.total]
-    })
-    console.log('Bill data =', data)
-
     const arrAmt = bills.map(ele => ele.total)
-    console.log('arrAmt', arrAmt)
+
     let sum = 0
     arrAmt.forEach(ele => {
         sum += ele
     })
-    console.log('amt=', sum)
+
+    // const dateTotal = bills.map(ele=>{
+    //     return {date: ele.date, total: ele.total}
+    // })
+    //console.log('dateTotal=', dateTotal) 
+    // let month = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sept', 'oct', 'nov', 'dec']
+    // let totalSales = {}
+    // bills.forEach(ele => {
+    //     let sum = ele.total
+    //     let d = new Date(ele.date)
+    //     //console.log(d)
+    //     let m = month[d.getMonth()]
+    //     console.log('month=', m, sum)
+        
+    //     if (totalSales.hasOwnProperty(m)) {
+    //         totalSales[m] += sum
+    //     } else {
+    //         totalSales[m] = sum
+    //     }
+    //     console.log('totalsal',totalSales)
+    // })
+    // const resultChart = Object.keys(totalSales)
+    //console.log('rsuCrt',resultChart)
+
+
+    const data = bills.map(ele => {
+        return [ele.date.slice(0, 10), ele.total]
+    })
 
     const customers = useSelector((state) => {
         return state.customers
@@ -37,13 +51,13 @@ const BillingDashboard = (props) => {
     })
 
     return (
-        <div style={{marginTop:'20px'}}>
-            <div style={{marginBottom:'0px'}} className="row row-cols-1 row-cols-md-4 g-4">
-                    <BillCard statsName='Total Customers' data={customers.length} />
-                    <BillCard statsName='Total Products' data={products.length}/>
-                    <BillCard statsName='Total Orders' data={bills.length}/>
-                    <BillCard statsName='Total Sales' data={sum}/>
-            </div>           
+        <div style={{ marginTop: '20px' }}>
+            <div style={{ marginBottom: '0px' }} className="row row-cols-1 row-cols-md-4 g-4">
+                <BillCard statsName='Total Customers' data={customers.length} />
+                <BillCard statsName='Total Products' data={products.length} />
+                <BillCard statsName='Total Orders' data={bills.length} />
+                <BillCard statsName='Total Sales' data={sum} />
+            </div>
             <BillChart data={data} />
         </div>
     )

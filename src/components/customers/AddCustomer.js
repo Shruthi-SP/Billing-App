@@ -6,12 +6,11 @@ const AddCustomer = (props) => {
     const dispatch = useDispatch()
 
     const formSubmission = (formData, resetForm) => {
-        console.log('form in add customer=', formData)
         dispatch(asyncAddCustomer(formData, resetForm))
         
     }
     return (
-        <div>
+        <div className='col-md-4'>
             <CustomerForm formSubmission={formSubmission}/>
         </div>
         

@@ -11,13 +11,12 @@ export const asyncGetAllBills = () => {
         .then((response)=>{
             const result = response.data
             if(result.hasOwnProperty('errors')){
-                console.log('get all bills err=', result.errors)
+                swal(result.errors)
             }else{
                 dispatch(getAllBills(result))
             }
         })
         .catch((err)=>{
-            console.log('err in getting all bills', err.message)
             alert(err.message)
         })
     }
@@ -36,14 +35,12 @@ export const asyncGetBill = (_id, getResult) => {
         .then((response)=>{
             const result = response.data
             if(result.hasOwnProperty('errors')){
-                console.log('get a bill err=', result.errors)
+                swal(result.errors)
             }else{
-                console.log('get a bill res=', result)
                 getResult(result)
             }
         })
         .catch((err)=>{
-            console.log('err in get a bill=', err.message)
             alert(err.message)
         })
     }
@@ -59,9 +56,8 @@ export const  asyncAddBill = (formData, resetForm, handleShow) => {
         .then((response)=>{
             const result = response.data
             if(result.hasOwnProperty('errors')){
-                console.log('add bill err=', result.errors)
+                alert(result.errors)
             }else{
-                console.log('add bill response=', result)
                 dispatch(addBill(result))
                 resetForm()
                 swal('Bill added successfully')
@@ -69,7 +65,6 @@ export const  asyncAddBill = (formData, resetForm, handleShow) => {
             }
         })
         .catch((err)=>{
-            console.log('err in adding bill=', err.message)
             alert(err.message)
         })
     }
@@ -88,7 +83,7 @@ export const asyncDeleteBill = (_id) => {
         .then((response)=>{
             const result = response.data
             if(result.hasOwnProperty('errors')){
-                console.log('delete bill err',result.errors)
+                alert(result.errors)
             }else{
                 console.log('delete bill res=', result)
                 dispatch(deleteBill(result))
@@ -96,7 +91,6 @@ export const asyncDeleteBill = (_id) => {
             }
         })
         .catch((err)=>{
-            console.log('err in deleting bill', err.message)
             alert(err.message)
         })
     }

@@ -1,5 +1,4 @@
 import { useState } from "react"
-import validator from 'validator'
 
 const CustomerForm = (props) => {
     const { name:editName, mobile:editMobile, email:editEmail, formSubmission } = props
@@ -12,8 +11,7 @@ const CustomerForm = (props) => {
     const runValidation = () => {
         if(name.trim().length === 0){
             errors.name = 'name cannot be blank'
-        }
-        
+        }        
     }
 
     const handleChange = (e) => {
@@ -47,13 +45,12 @@ const CustomerForm = (props) => {
             formSubmission(formData, resetForm)
         }else{
             setFormErrors(errors)
-            console.log(errors)
         }
     }
 
     return (
-        <div>
-            <h2 style={{marginTop: '0px'}}>Add Customer</h2>
+        <div className='mt-3 mb-3'>
+            <h2 className='mb-3'>Add Customer</h2>
             <form onSubmit={handleSubmit}>
                 <input  className='form-control'  type='text' 
                         placeholder='enter name' name='name' 
@@ -74,7 +71,7 @@ const CustomerForm = (props) => {
                         onChange={handleChange}
                 /><br />
                 
-                <input type='submit' value='Add' />
+                <input style={{width:'50%'}} type='submit' value='Add' />
             </form>
         </div>
     )

@@ -3,6 +3,7 @@ import {GoogleCharts} from 'google-charts'
 
 const BillChart = (props) =>{
     const {data} = props
+    
     const chartData = [['Date', 'Sales'], ...data]
 
     GoogleCharts.load(drawChart);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Switch, Route, withRouter } from "react-router-dom";
+import { Link, Route, withRouter } from "react-router-dom";
 import swal from 'sweetalert'
 import PrivateRoute from "./helper/PrivateRoute";
 import Home from './components/user/Home'
@@ -16,7 +16,6 @@ import { asyncGetAllProducts } from './actions/productsAction'
 import { asyncGetAllBills } from './actions/billsAction'
 
 function App(props) {
-  //console.log('app props= ', props)
   const [userLoggedIn, setUserLoggedIn] = useState(false)
 
   const handleLoggedIn = () => {
@@ -33,24 +32,24 @@ function App(props) {
       dispatch(asyncGetAllBills())
     }
   }, [])
-  
+
   return (
     <div>
       <h1 style={{ textAlign: 'center' }}>Billing App</h1>
       {
-        userLoggedIn ? <div className="d-flex bg-info">
+        userLoggedIn ? <div className="container d-flex bg-info">
           <Link className="p-2 ms-5 text-white text-decoration-none" to='/users/account'>Account</Link>
           <Link className="p-2 ms-5 text-white text-decoration-none" to='/customers'>Customers</Link>
           <Link className="p-2 ms-5 text-white text-decoration-none" to='/products'>Products</Link>
           <Link className="p-2 ms-5 text-white text-decoration-none" to='/bills'>Billings</Link>
           <Link className="p-2 ms-5 text-white text-decoration-none" to='/dashboard'>Dashboard</Link>
           <Link className="p-2 ms-5 text-white text-decoration-none"
-                      to='#' onClick={() => {
-                        localStorage.removeItem('token')
-                        swal('successfully logged out')
-                        handleLoggedIn()
-                        props.history.push('/')
-                      }}>Logout</Link>
+            to='#' onClick={() => {
+              localStorage.removeItem('token')
+              swal('successfully logged out')
+              handleLoggedIn()
+              props.history.push('/')
+            }}>Logout</Link>
         </div> : <div className="d-flex bg-info">
           <Link className="p-2 ms-5 text-white text-decoration-none" to='/'>Home</Link>
           <Link className="p-2 ms-5 text-white text-decoration-none" to='/users/register'> Register</Link>
@@ -58,24 +57,19 @@ function App(props) {
         </div>
       }
       <div className='container'>
-      <Route path='/' component={Home} exact></Route>
-      {
-        userLoggedIn ? <Switch>
-          {/* <PrivateRoute path='/users/account' component={Account} exact={true}  /> */}
-          {<Route path='/users/account' exact component={Account}></Route>}
-          <Route path='/customers' exact component={Customers}></Route>
-          <Route path='/products' exact component={Products}></Route>
-          <Route path='/bills' exact component={Billings}></Route>
-          <Route path='/dashboard' exact component={BillingDashboard}></Route>
-        </Switch> : <Switch >
-          <Route path='/users/register' component={Register}></Route>
-          <Route path='/users/login' render={(props) => {
-            return <Login {...props} handleLoggedIn={handleLoggedIn} />
-          }}></Route>
-        </Switch>
-      }
+        <Route path='/' component={Home} exact></Route>
+        <Route path='/users/register' component={Register}></Route>
+        <Route path='/users/login' render={(props) => {
+          return <Login {...props} handleLoggedIn={handleLoggedIn} />
+        }}></Route>
+
+        <PrivateRoute path='/users/account' component={Account} />
+        <PrivateRoute path='/customers' component={Customers} />
+        <PrivateRoute path='/products' component={Products} />
+        <PrivateRoute path='/bills' component={Billings} />
+        <PrivateRoute path='/dashboard' component={BillingDashboard} />
       </div>
-      
+
     </div>
   );
 }

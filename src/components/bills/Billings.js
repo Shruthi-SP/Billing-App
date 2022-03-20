@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { asyncGetAllCustomers } from "../../actions/customersAction"
 import { asyncGetAllProducts } from "../../actions/productsAction"
+import BillForm1 from "./BillForm1"
 
 const Billings = (props) => {
 
@@ -15,9 +16,9 @@ const Billings = (props) => {
     })
 
     return (
-        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+        <div className='row justify-content-around'>
             <BillsList />
-            <BillForm />
+            <BillForm1 />
         </div>
     )
 }

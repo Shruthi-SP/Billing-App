@@ -27,12 +27,10 @@ const ProductsList = (props) => {
         setTableData(products)
     }, [products])
 
-    const getResult = (obj) => {
-        console.log('get result for modal=', obj)
-        setResult(obj)
-    }
+    const getResult = (obj) => setResult(obj)
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => setShow(false)
+
     const handleShow = (_id) => {
         setShow(true)
         dispatch(asyncGetProduct(_id, getResult))
@@ -46,12 +44,7 @@ const ProductsList = (props) => {
         const userInput = e.target.value
         setSearch(userInput)
 
-        const newList = products.filter(ele => {
-            if (ele.name.toLowerCase().includes(userInput) || String(ele.price).includes(userInput)) {
-                return ele
-            }
-        })
-        console.log(newList)
+        const newList = products.filter(ele =>ele.name.toLowerCase().includes(userInput) || String(ele.price).includes(userInput))
         setTableData(newList)
     }
 
@@ -60,19 +53,19 @@ const ProductsList = (props) => {
         setId(_id)
     }
     const handleDelete = (_id) => {
-        console.log('delete event')
         dispatch(asyncDeleteProduct(_id))
     }
 
     return (
-        <div>
-            <input className='form-control mb-3 mt-3' type="text" value={search} placeholder='search' onChange={(e) => { handleSearchChange(e) }} />
+        <div className='col-md-6'>
+            <h2 className='mt-3 mb-3'>Products</h2>
+            <input className='form-control mb-3 mt-3' type="text" value={search} placeholder='search by products or price' onChange={(e) => { handleSearchChange(e) }} />
             {
                 tableData.length === 0 ? <div>
                     <p>No products. Add Products</p>
                 </div> : <div>
                     <div >
-                        <h3 style={{ margin: '0px 5px' }}>Listing Products - {tableData.length}</h3>
+                        <h3 style={{ margin: '0px 5px' }}>Listing - {tableData.length}</h3>
                     </div>
                     <table className='table'>
                         <thead>

@@ -12,10 +12,8 @@ const EditCustomer = (props) => {
     })
 
     const customer = customers.find(ele=>ele._id === _id)
-    console.log('customerObj in edit=', customer)
 
     const formSubmission = (formData, resetForm) => {
-        console.log('edit customer formdata=', formData)
         dispatch(asyncEditCustomer(_id, formData, resetForm))
         handleToggle()
     }
