@@ -75,12 +75,12 @@ const Register = (props) => {
             const redirect = () => {
                 props.history.push('/users/login')
             }
-            console.log('register formdata=', formData)
+            //console.log('register formdata=', formData)
             dispatch(asyncUserRegister(formData, resetForm, redirect))
             
         }else{
             setFormErrors(errors)
-            console.log(errors)
+            //console.log(errors)
         }
     }
 

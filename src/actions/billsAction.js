@@ -85,7 +85,7 @@ export const asyncDeleteBill = (_id) => {
             if(result.hasOwnProperty('errors')){
                 alert(result.errors)
             }else{
-                console.log('delete bill res=', result)
+                //console.log('delete bill res=', result)
                 dispatch(deleteBill(result))
                 swal('Bill deleted')
             }

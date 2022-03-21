@@ -49,12 +49,12 @@ const Login = (props) => {
                 props.history.push('/users/account')
                 props.handleLoggedIn()
             }
-            console.log('login formdata=', formData)
+            //console.log('login formdata=', formData)
             dispatch(asyncUserLogin(formData, resetForm, redirect))
             
         }else{
             setFormErrors(errors)
-            console.log(errors)
+            //console.log(errors)
         }
     }
 

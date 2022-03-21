@@ -78,7 +78,7 @@ const BillForm = (props) => {
             setChosenDate(e.target.value)
         }
         if (attr === 'chosenCustomer') {
-            console.log('chosen customer', e.target.value)
+            //console.log('chosen customer', e.target.value)
             setChosenCustomer(e.target.value)
         }
         if (attr === 'chosenProduct') {

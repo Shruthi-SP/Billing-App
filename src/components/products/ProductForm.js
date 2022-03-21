@@ -42,7 +42,7 @@ const ProductForm = (props) => {
             formSubmission(formData, resetForm)
         }else{
             setFormErrors(errors)
-            console.log(errors)
+            //console.log(errors)
         }
     }
 

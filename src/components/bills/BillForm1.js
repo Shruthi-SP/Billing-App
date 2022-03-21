@@ -108,7 +108,7 @@ const BillForm1 = (props) => {
             setChosenDate(e.target.value)
         }
         if (attr === 'chosenCustomer') {
-            console.log('chosen customer', e.target.value)
+            //console.log('chosen customer', e.target.value)
             setChosenCustomer(e.target.value)
         }
         if (attr === 'chosenProduct') {
@@ -148,7 +148,7 @@ const BillForm1 = (props) => {
                 quantity: quantity
             }
             const newLineItems = [item, ...lineItems]
-            console.log('cart items=', newLineItems)
+            //console.log('cart items=', newLineItems)
             setLineItems(newLineItems)
             swal('Added to cart')
             setProd([])

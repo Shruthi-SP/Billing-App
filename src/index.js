@@ -9,11 +9,11 @@ import App from './App';
 import configureStore from './store/configureStore';
 
 const store = configureStore()
-console.log('store=', store)
-console.log('state= ', store.getState())
-store.subscribe(()=>{
-  console.log('updated state=', store.getState())
-})
+// console.log('store=', store)
+// console.log('state= ', store.getState())
+// store.subscribe(()=>{
+//   console.log('updated state=', store.getState())
+// })
 
 ReactDOM.render(
   <BrowserRouter >

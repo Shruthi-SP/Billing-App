@@ -8,7 +8,7 @@ import EditCustomer from "./EditCustomer"
 const CustomersList = (props) => {
     
     const customers = useSelector((state) => {
-        console.log('cust len=', state.customers.length)
+        //console.log('cust len=', state.customers.length)
         return state.customers
     })
 
